@@ -15,8 +15,9 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    if Article.create(article_attributes)
+    if @article = Article.create(article_attributes)
       redirect_to articles_path
+      flash.notice = "The article '#{@article.title}' was successfully created!"
     else
       render "new"
     end
@@ -28,7 +29,8 @@ class ArticlesController < ApplicationController
 
   def update
     if @article.update(article_attributes)
-      redirect_to articles_path
+      redirect_to article_path(@article)
+      flash.notice = "The article '#{@article.title}' was successfully updated!"
     else
       render "edit"
     end
@@ -37,6 +39,7 @@ class ArticlesController < ApplicationController
   def destroy
     @article.destroy
     redirect_to articles_path
+    flash.notice = "The article '#{@article.title}' is gone forever!"
   end
 
   private
